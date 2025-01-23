@@ -1,7 +1,6 @@
 import datetime
 from enum import Enum
-from typing import Optional
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, computed_field
 
 
 class MessageType(str, Enum):
@@ -14,8 +13,7 @@ class Message(BaseModel):
     timestamp: datetime.datetime
     report_id: int | None = None
     id: int
-    type_: MessageType = MessageType.TEXT_ONLY
 
-    @field_validator("type_", mode="before")
-    def validate_message_type(cls, _, info):
-        return MessageType.REPORT if info.data.get("report_id") else MessageType.TEXT_ONLY
+    @computed_field
+    def type_(self) -> MessageType:
+        return MessageType.REPORT if self.report_id is not None else MessageType.TEXT_ONLY
