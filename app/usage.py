@@ -1,7 +1,6 @@
 import datetime
 from typing import List
-from pydantic import BaseModel, ConfigDict, Field, computed_field
-from app.message import Message
+from pydantic import BaseModel
 
 
 class MessageUsage(BaseModel):

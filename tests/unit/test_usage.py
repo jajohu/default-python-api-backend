@@ -1,5 +1,4 @@
 import datetime
-from app.message import Message
 from app.usage import MessageUsage, Usage
 
 
