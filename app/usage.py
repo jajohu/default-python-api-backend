@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 from app.message import Message
 
@@ -11,4 +12,4 @@ class MessageUsage(BaseModel):
 
 
 class Usage(BaseModel):
-    ...
+    usage: List[MessageUsage]
