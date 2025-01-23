@@ -14,5 +14,5 @@ def test_report_message():
 
 
 def test_messages():
-    messages = Messages([Message(text="test text", timestamp=datetime.datetime(2024, 1, 1, 0, 0, 0), id=42), Message(text="report please", timestamp=datetime.datetime(2024, 1, 1, 0, 0, 0), id=43, report_id=3)])
+    messages = Messages(messages=[Message(text="test text", timestamp=datetime.datetime(2024, 1, 1, 0, 0, 0), id=42), Message(text="report please", timestamp=datetime.datetime(2024, 1, 1, 0, 0, 0), id=43, report_id=3)])
     assert len(messages.messages) == 2

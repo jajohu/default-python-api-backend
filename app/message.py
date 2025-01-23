@@ -1,5 +1,6 @@
 import datetime
 from enum import Enum
+from typing import List
 from pydantic import BaseModel, computed_field
 
 
@@ -20,4 +21,4 @@ class Message(BaseModel):
     
 
 class Messages(BaseModel):
-    ...
+    messages: List[Message]
