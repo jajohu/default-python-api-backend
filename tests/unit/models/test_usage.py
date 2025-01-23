@@ -1,5 +1,5 @@
 import datetime
-from app.usage import MessageUsage, Usage
+from app.models.usage import MessageUsage, Usage
 
 
 def test_message_usage():

@@ -1,6 +1,6 @@
 import datetime
 
-from app.message import Message, MessageType, Messages
+from app.models.message import Message, MessageType, Messages
 
 
 def test_text_only_message():

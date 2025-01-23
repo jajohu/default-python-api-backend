@@ -12,3 +12,7 @@ class MessageUsage(BaseModel):
 
 class Usage(BaseModel):
     usage: List[MessageUsage]
+
+
+class Calculator:
+    ...
