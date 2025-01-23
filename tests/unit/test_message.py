@@ -9,4 +9,5 @@ def test_text_only_message():
 
 
 def test_report_message():
-    ...
+    message = Message(text="report please", timestamp=datetime.datetime(2024, 1, 1, 0, 0, 0), id=42, report_id=3)
+    assert message.type_ == MessageType.REPORT
