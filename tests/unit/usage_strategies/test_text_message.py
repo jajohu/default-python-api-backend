@@ -11,7 +11,7 @@ def test_base_cost():
         id=1,
         text="hi",
         timestamp=datetime.datetime(2024, 1, 1)
-    )) == TextMessageUsageStrategy.BASE_COST
+    )).usage == TextMessageUsageStrategy.BASE_COST
 
 
 def test_character_count():
@@ -24,7 +24,7 @@ def test_character_count():
         id=1,
         text=test_text,  
         timestamp=datetime.datetime(2024, 1, 1)
-    ))) == pytest.approx(expected)
+    )).usage) == pytest.approx(expected)
 
 
 def test_word_length_multipliers():
@@ -39,7 +39,7 @@ def test_word_length_multipliers():
         id=1,
         text=test_text,
         timestamp=datetime.datetime(2024, 1, 1)
-    ))) == pytest.approx(expected)
+    )).usage) == pytest.approx(expected)
 
 
 def test_third_vowel_positions():
@@ -51,7 +51,7 @@ def test_third_vowel_positions():
         id=1,
         text=test_text,
         timestamp=datetime.datetime(2024, 1, 1)
-    )) == expected
+    )).usage == expected
 
 
 def test_length_penalty():
@@ -63,7 +63,7 @@ def test_length_penalty():
         id=1,
         text=test_text,
         timestamp=datetime.datetime(2024, 1, 1)
-    )) == expected
+    )).usage == expected
 
 
 def test_unique_word_bonus():
@@ -75,7 +75,7 @@ def test_unique_word_bonus():
         id=1,
         text=test_text,
         timestamp=datetime.datetime(2024, 1, 1)
-    ))) == pytest.approx(expected)
+    )).usage) == pytest.approx(expected)
 
 
 def test_palindrome():
@@ -88,4 +88,4 @@ def test_palindrome():
         id=1,
         text=test_text,
         timestamp=datetime.datetime(2024, 1, 1)
-    ))) == pytest.approx(base_cost * 2)
+    )).usage) == pytest.approx(base_cost * 2)

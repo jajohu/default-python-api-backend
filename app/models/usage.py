@@ -1,6 +1,9 @@
 import datetime
-from typing import List
+from typing import Generator, List
 from pydantic import BaseModel
+
+from app.models.message import MessageType, Messages
+from app.usage_strategies.base import UsageStrategy
 
 
 class MessageUsage(BaseModel):
@@ -15,4 +18,20 @@ class Usage(BaseModel):
 
 
 class Calculator:
-    ...
+    def __init__(self, messages: Messages, text_message_strategy: UsageStrategy, report_strategy: UsageStrategy):
+        self._messages = messages
+        self._text_message_strategy = text_message_strategy
+        self._report_strategy = report_strategy
+
+    def calculate_usage(self) -> Usage:
+        return Usage(usage=list(self._yield_from_messages()))
+    
+    def _yield_from_messages(self) -> Generator[MessageUsage, None, None]:
+        for message in self._messages.messages:
+            match message.type_:
+                case MessageType.TEXT_ONLY:
+                    usage = self._text_message_strategy.calculate_usage(message)
+                    yield MessageUsage(message_id=message.id, timestamp=message.timestamp, credits_used=usage.usage)
+                case MessageType.REPORT:
+                    usage = self._report_strategy.calculate_usage(message)
+                    yield MessageUsage(message_id=message.id, timestamp=message.timestamp, report_name=usage.report_name, credits_used=usage.usage)

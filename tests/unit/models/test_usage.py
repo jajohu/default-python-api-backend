@@ -1,6 +1,8 @@
 import datetime
-from app.models.message import Message
+from app.models.message import Message, Messages
 from app.models.usage import Calculator, MessageUsage, Usage
+from app.usage_strategies.report import ReportUsageStrategy
+from app.usage_strategies.text_message import TextMessageUsageStrategy
 
 
 def test_message_usage():
@@ -34,6 +36,7 @@ def test_calculator(mock_report_api):
         text="hi",
         timestamp=datetime.datetime(2024, 1, 1)
     ), Message(text="report please", timestamp=datetime.datetime(2024, 1, 1, 0, 0, 0), id=3, report_id=report_id)]
-    calculator = Calculator(messages)
+    calculator = Calculator(Messages(messages=messages), TextMessageUsageStrategy(), ReportUsageStrategy())
     usage = calculator.calculate_usage()
-    assert usage
+    total_usage = sum(usage.credits_used for usage in usage.usage)
+    assert total_usage == 11

@@ -1,7 +1,6 @@
-import re
 from typing import List
 from app.models.message import Message
-from app.usage_strategies.base import UsageStrategy
+from app.usage_strategies.base import UsageResult, UsageStrategy
 
 
 class TextMessageUsageStrategy(UsageStrategy):
@@ -15,7 +14,7 @@ class TextMessageUsageStrategy(UsageStrategy):
     UNIQUE_BONUS = 2.0
     VOWELS = "aeiou"
 
-    def calculate_usage(self, message: Message) -> float:
+    def calculate_usage(self, message: Message) -> UsageResult:
         self._reset_current_usage()
         words = message.text.split(" ")
         self._add_char_cost(message.text)
@@ -25,7 +24,7 @@ class TextMessageUsageStrategy(UsageStrategy):
         self._add_uniqueness_bonus(words)
         self._add_palindrome_cost(message.text)
 
-        return max(self.BASE_COST, self._current_usage)
+        return UsageResult(usage=max(self.BASE_COST, self._current_usage), report_name=None)
     
     def _add_char_cost(self, message_text: str):
         chars = len(message_text.replace(" ", ""))
