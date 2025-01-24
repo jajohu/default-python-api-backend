@@ -11,7 +11,7 @@ class ReportUsageStrategy(UsageStrategy):
 
     def calculate_usage(self, message: Message) -> UsageResult:
         self._reset_current_usage()
-        report_response = requests.get(self.get_endpoint_url(message.report_id))
+        report_response = requests.get(self.get_endpoint_url(message.report_id), timeout=30)
         if report_response.status_code == HTTPStatus.NOT_FOUND:
             raise ReportNotFound(f"Could not find report ID {message.report_id}")
         report = Report.model_validate(report_response.json())

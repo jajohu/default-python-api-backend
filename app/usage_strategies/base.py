@@ -1,4 +1,3 @@
-
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
@@ -11,6 +10,7 @@ class UsageResult:
     report_name: str | None
 
 
+# pylint: disable=R0903
 class UsageStrategy(ABC):
     BASE_COST: float = NotImplemented
 

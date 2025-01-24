@@ -8,6 +8,6 @@ CURRENT_PERIOD_ENDPOINT = "https://owpublic.blob.core.windows.net/tech-task/mess
 
 
 def get_usage() -> Usage:
-    messages = Messages.model_validate(requests.get(CURRENT_PERIOD_ENDPOINT).json())
+    messages = Messages.model_validate(requests.get(CURRENT_PERIOD_ENDPOINT, timeout=30).json())
     calculator = Calculator(messages, TextMessageUsageStrategy(), ReportUsageStrategy())
     return calculator.calculate_usage()

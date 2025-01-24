@@ -1,13 +1,12 @@
 import logging
 from typing import Dict
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
 from app.routes import router
 
 logging.basicConfig(
     filename="/app/logs/app.log",
     level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 
 logger = logging.getLogger(__name__)

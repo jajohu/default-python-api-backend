@@ -12,6 +12,6 @@ def test_get_usage_route(test_client, mock_current_period_api):
     assert data.get("usage", False)
     for row in data["usage"]:
         assert type(row.get("message_id")) == int
-        datetime.datetime.strptime(row.get("timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ')
+        datetime.datetime.strptime(row.get("timestamp"), "%Y-%m-%dT%H:%M:%S.%fZ")
         assert row.get("report_name", False) is False or type(row.get("report_name")) == str
         assert type(row.get("credits_used")) == float

@@ -18,7 +18,7 @@ class Message(BaseModel):
     @computed_field
     def type_(self) -> MessageType:
         return MessageType.REPORT if self.report_id is not None else MessageType.TEXT_ONLY
-    
+
 
 class Messages(BaseModel):
     messages: List[Message]
