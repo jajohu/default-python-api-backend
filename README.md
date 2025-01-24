@@ -2,8 +2,8 @@
 
 An API service to retrieve service usage over a billing period.
 
-<!-- ## Demo
-![Demo](demo.gif) -->
+## Demo
+![Demo](demo.gif)
 
 ## Setup
 
@@ -52,6 +52,11 @@ Returns the usage data for the current billing period.
 Example request:
 ```bash
 curl http://localhost:8000/usage
+```
+
+Example response:
+```
+{"usage":[{"message_id":1000,"timestamp":"2024-04-29T02:08:29.375Z","report_name":"Tenant Obligations Report","credits_used":79.0},{"message_id":1001,"timestamp":"2024-04-29T03:25:03.613Z","credits_used":4.85}]}
 ```
 
 ## API Documentation
