@@ -24,7 +24,7 @@ class TextMessageUsageStrategy(UsageStrategy):
         self._add_uniqueness_bonus(words)
         self._add_palindrome_cost(message.text)
 
-        return UsageResult(usage=max(self.BASE_COST, self._current_usage), report_name=None)
+        return UsageResult(usage=round(max(self.BASE_COST, self._current_usage), 4), report_name=None)
     
     def _add_char_cost(self, message_text: str):
         chars = len(message_text.replace(" ", ""))
