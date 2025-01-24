@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 @router.get("/usage")
-async def get_questionnaire_route() -> Usage:
+async def get_usage_route() -> Usage:
     """Get credit usage over the current billing period."""
     logger.debug("Received usage request")
     return get_usage()
