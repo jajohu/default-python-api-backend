@@ -23,12 +23,17 @@ def mock_current_period_api():
             rsps.add(
                 responses.GET,
                 "https://owpublic.blob.core.windows.net/tech-task/messages/current-period",
-                json=[{"text": "test text message",
+                json={"messages": [{"text": "test text message",
       "timestamp": "2024-04-29T03:25:03.613Z",
       "id": 1}, {"text": "please generate a report",
       "timestamp": "2024-04-29T02:08:29.375Z",
       "report_id": report_id,
-      "id": 42}]
+      "id": 42}]}
+            )
+            rsps.add(
+                responses.GET,
+                f"https://owpublic.blob.core.windows.net/tech-task/reports/{report_id}",
+                json={"id": report_id, "name": "test report name", "credit_cost": 1}
             )
         yield setup_response
 
