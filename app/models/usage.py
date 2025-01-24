@@ -1,6 +1,6 @@
 import datetime
 from typing import Generator, List
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.models.message import MessageType, Messages
 from app.usage_strategies.base import UsageStrategy
@@ -11,6 +11,12 @@ class MessageUsage(BaseModel):
     timestamp: datetime.datetime
     report_name: str | None = None
     credits_used: float
+
+    model_config = {
+        "json_encoders": {
+            datetime.datetime: lambda v: v.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
+        }
+    }
 
 
 class Usage(BaseModel):

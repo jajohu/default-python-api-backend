@@ -10,7 +10,7 @@ router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
-@router.get("/usage")
+@router.get("/usage", response_model_exclude_none=True)
 async def get_usage_route() -> Usage:
     """Get credit usage over the current billing period."""
     logger.debug("Received usage request")
