@@ -40,3 +40,22 @@ def test_calculator(mock_report_api):
     usage = calculator.calculate_usage()
     total_usage = sum(usage.credits_used for usage in usage.usage)
     assert total_usage == 11
+
+
+def test_calculator_report_not_found_fallback(mock_report_api):
+    report_id = 999
+    mock_report_api(cost=0, report_id=report_id, status_code=404)
+    messages = [Message(
+        text="report please",
+        timestamp=datetime.datetime(2024, 1, 1),
+        id=1,
+        report_id=report_id
+    )]
+    calculator = Calculator(
+        Messages(messages=messages),
+        TextMessageUsageStrategy(),
+        ReportUsageStrategy()
+    )
+    usage = calculator.calculate_usage()
+    message_usage = usage.usage[0]
+    assert message_usage.credits_used == TextMessageUsageStrategy.BASE_COST
