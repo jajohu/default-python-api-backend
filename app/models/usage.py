@@ -1,7 +1,8 @@
 import datetime
 from typing import Generator, List
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_serializer
 
+from app.exceptions import ReportNotFound
 from app.models.message import MessageType, Messages
 from app.usage_strategies.base import UsageStrategy
 
@@ -12,11 +13,9 @@ class MessageUsage(BaseModel):
     report_name: str | None = None
     credits_used: float
 
-    model_config = {
-        "json_encoders": {
-            datetime.datetime: lambda v: v.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
-        }
-    }
+    @field_serializer('timestamp')
+    def serialize_datetime(self, dt: datetime.datetime) -> str:
+        return dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z'
 
 
 class Usage(BaseModel):
@@ -39,5 +38,9 @@ class Calculator:
                     usage = self._text_message_strategy.calculate_usage(message)
                     yield MessageUsage(message_id=message.id, timestamp=message.timestamp, credits_used=usage.usage)
                 case MessageType.REPORT:
-                    usage = self._report_strategy.calculate_usage(message)
-                    yield MessageUsage(message_id=message.id, timestamp=message.timestamp, report_name=usage.report_name, credits_used=usage.usage)
+                    try:
+                        usage = self._report_strategy.calculate_usage(message)
+                        yield MessageUsage(message_id=message.id, timestamp=message.timestamp, report_name=usage.report_name, credits_used=usage.usage)
+                    except ReportNotFound:
+                        usage = self._text_message_strategy.calculate_usage(message)
+                        yield MessageUsage(message_id=message.id, timestamp=message.timestamp, credits_used=usage.usage)

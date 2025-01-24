@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from fastapi.testclient import TestClient
 import pytest
 import responses
@@ -7,10 +8,11 @@ from app.main import app
 @pytest.fixture
 def mock_report_api():
     with responses.RequestsMock() as rsps:
-        def setup_response(cost: float, report_id: int, report_name: str = "test report name"):
+        def setup_response(cost: float, report_id: int, report_name: str = "test report name", status_code: HTTPStatus = HTTPStatus.OK):
             rsps.add(
                 responses.GET,
                 f"https://owpublic.blob.core.windows.net/tech-task/reports/{report_id}",
+                status=status_code,
                 json={"id": report_id, "name": report_name, "credit_cost": cost}
             )
         yield setup_response
