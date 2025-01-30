@@ -1,7 +1,7 @@
 import logging
 from typing import Dict
 from fastapi import FastAPI
-from app.routes import router
+from fastapi import APIRouter
 
 logging.basicConfig(
     filename="/app/logs/app.log",
@@ -12,10 +12,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title="Orbital Witness Usage API",
-    description="An API service to retrieve service usage over a billing period",
+    title="Basic Python API",
+    description="A basic Python API implemented in FastAPI",
     version="1.0.0",
 )
+router = APIRouter()
 
 app.include_router(router)
 
@@ -23,4 +24,4 @@ app.include_router(router)
 @app.get("/health")
 async def health_check() -> Dict[str, str]:
     logger.debug("Health check received")
-    return {"status": "healthy"}
+    return {"status": "ok"}
